@@ -16,13 +16,20 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const __dirname = path.resolve(); 
 
 app.use(express.json());
 app.use(clerkMiddleware());
-app.use(fileUpload({
-  useTempFiles: true,
-  tempFileDir: path.join(__dirname, "tmp"),
-}));
+app.use(
+	fileUpload({
+		useTempFiles: true,
+		tempFileDir: path.join(__dirname, "tmp"),
+		createParentPath: true,
+		limits: {
+			fileSize: 10 * 1024 * 1024, // 10MB  max file size
+		},
+	})
+);
 
 app.use("/api/users",userRoutes);
 app.use("/api/auth",authRoutes);
