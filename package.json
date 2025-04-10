@@ -1,13 +1,13 @@
 {
-	"name": "spotify-clone",
+	"name": "echoverse",
 	"version": "1.0.0",
-	"description": "",
+	"description": "A web application for music lovers to discover and share their favorite songs.",
 	"main": "index.js",
 	"scripts": {
 		"build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
 		"start": "npm start --prefix backend"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "Suraj Kumar",
 	"license": "ISC"
 }
