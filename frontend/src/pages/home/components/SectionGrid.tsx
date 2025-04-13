@@ -20,7 +20,7 @@ const SectionGrid = ({ songs, title, isLoading }: SectionGridProps) => {
 				</Button>       
 			</div>             
 
-			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+			<div className='grid max-sm:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
 				{songs.map((song) => (
 					<div
 						key={song._id}
