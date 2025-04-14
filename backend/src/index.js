@@ -21,7 +21,8 @@ import statRoutes from "./routes/stat.route.js";
 
 dotenv.config();
 
-const __dirname = path.resolve();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -76,14 +77,12 @@ app.use("/api/albums", albumRoutes);
 app.use("/api/stats", statRoutes);
 
 // ✅ Serve frontend in production
-if(process.env.NODE_ENV === "production"){
-	console.log("Production mode");
+if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "../frontend/dist")));
-  
 	app.get("*", (req, res) => {
-	  res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+		res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
 	});
-  }
+}
 
 // ✅ Error handler
 app.use((err, req, res, next) => {
