@@ -2,7 +2,6 @@ import { axiosInstance } from "@/lib/axios";
 import { Album, Song, Stats } from "@/types";
 import toast from "react-hot-toast";
 import { create } from "zustand";
-import axios from "axios";
 
 interface MusicStore {
 	songs: Song[];
@@ -46,16 +45,14 @@ export const useMusicStore = create<MusicStore>((set) => ({
 		set({ isLoading: true, error: null });
 		try {
 			await axiosInstance.delete(`/admin/songs/${id}`);
+
 			set((state) => ({
 				songs: state.songs.filter((song) => song._id !== id),
 			}));
 			toast.success("Song deleted successfully");
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				toast.error("Error deleting song: " + error.response?.data?.message || "Unknown error");
-			} else {
-				toast.error("Unexpected error while deleting song");
-			}
+		} catch (error: any) {
+			console.log("Error in deleteSong", error);
+			toast.error("Error deleting song");
 		} finally {
 			set({ isLoading: false });
 		}
@@ -72,12 +69,8 @@ export const useMusicStore = create<MusicStore>((set) => ({
 				),
 			}));
 			toast.success("Album deleted successfully");
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				toast.error("Failed to delete album: " + error.response?.data?.message || "Unknown error");
-			} else {
-				toast.error("Unexpected error while deleting album");
-			}
+		} catch (error: any) {
+			toast.error("Failed to delete album: " + error.message);
 		} finally {
 			set({ isLoading: false });
 		}
@@ -88,12 +81,8 @@ export const useMusicStore = create<MusicStore>((set) => ({
 		try {
 			const response = await axiosInstance.get("/songs");
 			set({ songs: response.data });
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				set({ error: error.response?.data?.message || "Failed to fetch songs" });
-			} else {
-				set({ error: "Unexpected error while fetching songs" });
-			}
+		} catch (error: any) {
+			set({ error: error.message });
 		} finally {
 			set({ isLoading: false });
 		}
@@ -104,12 +93,8 @@ export const useMusicStore = create<MusicStore>((set) => ({
 		try {
 			const response = await axiosInstance.get("/stats");
 			set({ stats: response.data });
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				set({ error: error.response?.data?.message || "Failed to fetch stats" });
-			} else {
-				set({ error: "Unexpected error while fetching stats" });
-			}
+		} catch (error: any) {
+			set({ error: error.message });
 		} finally {
 			set({ isLoading: false });
 		}
@@ -117,15 +102,12 @@ export const useMusicStore = create<MusicStore>((set) => ({
 
 	fetchAlbums: async () => {
 		set({ isLoading: true, error: null });
+
 		try {
 			const response = await axiosInstance.get("/albums");
 			set({ albums: response.data });
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				set({ error: error.response?.data?.message || "Failed to fetch albums" });
-			} else {
-				set({ error: "Unexpected error while fetching albums" });
-			}
+		} catch (error: any) {
+			set({ error: error.response.data.message });
 		} finally {
 			set({ isLoading: false });
 		}
@@ -136,12 +118,8 @@ export const useMusicStore = create<MusicStore>((set) => ({
 		try {
 			const response = await axiosInstance.get(`/albums/${id}`);
 			set({ currentAlbum: response.data });
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				set({ error: error.response?.data?.message || "Failed to fetch album" });
-			} else {
-				set({ error: "Unexpected error while fetching album" });
-			}
+		} catch (error: any) {
+			set({ error: error.response.data.message });
 		} finally {
 			set({ isLoading: false });
 		}
@@ -152,12 +130,8 @@ export const useMusicStore = create<MusicStore>((set) => ({
 		try {
 			const response = await axiosInstance.get("/songs/featured");
 			set({ featuredSongs: response.data });
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				set({ error: error.response?.data?.message || "Failed to fetch featured songs" });
-			} else {
-				set({ error: "Unexpected error while fetching featured songs" });
-			}
+		} catch (error: any) {
+			set({ error: error.response.data.message });
 		} finally {
 			set({ isLoading: false });
 		}
@@ -168,12 +142,8 @@ export const useMusicStore = create<MusicStore>((set) => ({
 		try {
 			const response = await axiosInstance.get("/songs/made-for-you");
 			set({ madeForYouSongs: response.data });
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				set({ error: error.response?.data?.message || "Failed to fetch made-for-you songs" });
-			} else {
-				set({ error: "Unexpected error while fetching made-for-you songs" });
-			}
+		} catch (error: any) {
+			set({ error: error.response.data.message });
 		} finally {
 			set({ isLoading: false });
 		}
@@ -184,12 +154,8 @@ export const useMusicStore = create<MusicStore>((set) => ({
 		try {
 			const response = await axiosInstance.get("/songs/trending");
 			set({ trendingSongs: response.data });
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				set({ error: error.response?.data?.message || "Failed to fetch trending songs" });
-			} else {
-				set({ error: "Unexpected error while fetching trending songs" });
-			}
+		} catch (error: any) {
+			set({ error: error.response.data.message });
 		} finally {
 			set({ isLoading: false });
 		}

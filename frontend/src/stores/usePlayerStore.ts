@@ -3,7 +3,7 @@ import { Song } from "@/types";
 import { useChatStore } from "./useChatStore";
 
 interface PlayerStore {
-	currentSong: Song | null;  
+	currentSong: Song | null;
 	isPlaying: boolean;
 	queue: Song[];
 	currentIndex: number;
@@ -22,7 +22,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
 	queue: [],
 	currentIndex: -1,
 
-	initializeQueue: (songs: Song[])  => {
+	initializeQueue: (songs: Song[]) => {
 		set({
 			queue: songs,
 			currentSong: get().currentSong || songs[0],

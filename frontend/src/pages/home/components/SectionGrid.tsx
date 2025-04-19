@@ -17,10 +17,10 @@ const SectionGrid = ({ songs, title, isLoading }: SectionGridProps) => {
 				<h2 className='text-xl sm:text-2xl font-bold'>{title}</h2>
 				<Button variant='link' className='text-sm text-zinc-400 hover:text-white'>
 					Show all
-				</Button>       
-			</div>             
+				</Button>
+			</div>
 
-			<div className='grid max-sm:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
 				{songs.map((song) => (
 					<div
 						key={song._id}
